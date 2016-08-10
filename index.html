@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<meta name="description" content="Usage Inspector"/>
+
+		<title>Grid Quotas</title>
+
+		<script src="jspm_packages/system.js"></script>
+		<script src="config.js"></script>
+
+		<script>
+      		  System.import("app").catch(function(error) {
+                    setTimeout(function(){ throw error; });
+		  });
+    		</script>
+
+		<link href="main.css" media="all" rel="stylesheet">
+
+	</head>
+	<body>
+		<h1>Grid Quota Usage</h1>
+		<div id="app">
+			<ul>
+				<li v-for="quota in message" v-bind:class="{ 'exceeded': quota.exceeded }">
+					{{ quota.id }} - {{ quota.percent }}%
+				</li>
+			</ul>
+		</div>
+		<p>If this is broken you might need to sign in to the Grid!</p>
+	</body>
+</html>
+
