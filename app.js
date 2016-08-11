@@ -19,14 +19,32 @@ const client = new Client({
   
 const MediaApi = {      
   quotas: function quotas() {
-    const apiUrl = apiUriByEnv["PROD"];
+    const apiUrl = apiUriByEnv["PROD"]["usage"];
     const api = client.resource(apiUrl);
 
     return Rx.Observable.fromPromise(
       api.get()
+    ).doOnError(
+      function (err) { 
+        const parsedErr = JSON.parse(err.body);
+      
+        if(parsedErr.errorKey == "session-expired" || parsedErr.errorKey == "unauthorized") {
+          const iframe = document.createElement('iframe');
+
+          iframe.style.display = "none";
+          iframe.src = apiUriByEnv["PROD"]["login"] 
+
+          iframe.onload = function(o){
+            window.location.reload();
+          };
+
+          document.body.appendChild(iframe);
+        };
+      }
     );
   }
 };
+
 
 const usageQuotaValuesObservable = MediaApi.quotas().map((o) => {
 	var quotas = []; 

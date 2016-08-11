@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 		<meta name="description" content="Usage Inspector"/>
 
-		<title>Grid Quotas</title>
+		<title>Grid Quota Usage</title>
 
 		<script src="jspm_packages/system.js"></script>
 		<script src="config.js"></script>
@@ -21,14 +21,22 @@
 	</head>
 	<body>
 		<h1>Grid Quota Usage</h1>
-		<div id="app">
-			<ul>
-				<li v-for="quota in message" v-bind:class="{ 'exceeded': quota.exceeded }">
-					{{ quota.id }} - {{ quota.percent }}%
-				</li>
-			</ul>
-		</div>
-		<p>If this is broken you might need to sign in to the Grid!</p>
-	</body>
+    <div id="app" v-cloak>
+      <svg class="chart" width="520" height="150">
+        <g v-for="quota in message">
+        <rect width="400" class="bar-container" height="19" y="{{$index * 25}}"></rect>
+        <rect 
+          width="{{ quota.percent * 4}}"
+          class="bar-filler" 
+          v-bind:class="{ 'bar-filler__quota-exceeded': quota.exceeded}" 
+          height="19" 
+          y="{{$index * 25}}">
+        </rect>
+        <text x=5 y="{{($index * 25) + 10}}" dy=".35em">{{ quota.id }}</text>
+        <text x=200 y="{{($index * 25) + 10}}" dy=".35em">{{ quota.usage.count }} / {{ quota.quota.count }}</text>
+        </g>
+      </svg>
+    </div>
+  </body>
 </html>
 

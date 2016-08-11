@@ -1,6 +1,14 @@
-#app {
-	width: 200px;
+[v-cloak] {
+	display: none;
 }
-.exceeded {
-	background-color: red;
+.bar-container {
+  fill: transparent;
+  stroke: black;
+}
+.bar-filler {
+  fill: green;
+  fill-opacity: 0.7;
+}
+.bar-filler__quota-exceeded {
+  fill: red;
 }
